@@ -22,10 +22,10 @@ box-shadow:0 10px 25px rgba(0,0,0,0.2);">
 Student Registration
 </h2>
 
-<form>
+<form id="studentForm">
 
 <label style="font-weight:bold;color:#444;">Full Name</label>
-<input type="text" placeholder="Enter your name" required
+<input id="name" type="text" placeholder="Enter your name" required
 style="width:100%;
 padding:10px;
 margin-top:6px;
@@ -35,7 +35,7 @@ border-radius:6px;
 font-size:14px;">
 
 <label style="font-weight:bold;color:#444;">Email Address</label>
-<input type="email" placeholder="Enter your email" required
+<input id="email" type="email" placeholder="Enter your email" required
 style="width:100%;
 padding:10px;
 margin-top:6px;
@@ -45,7 +45,7 @@ border-radius:6px;
 font-size:14px;">
 
 <label style="font-weight:bold;color:#444;">Select Course</label>
-<select required
+<select id="course" required
 style="width:100%;
 padding:10px;
 margin-top:6px;
@@ -78,6 +78,46 @@ Register
 </form>
 
 </div>
+
+<script>
+
+document.getElementById("studentForm").addEventListener("submit", async function(e){
+
+e.preventDefault()
+
+const name = document.getElementById("name").value
+const email = document.getElementById("email").value
+const course = document.getElementById("course").value
+
+const data = {
+name: name,
+email: email,
+course: course
+}
+
+try{
+
+const response = await fetch("http://student-app-lb-605656912.us-east-1.elb.amazonaws.com/add",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify(data)
+})
+
+const result = await response.json()
+
+alert("Student Registered Successfully")
+
+}catch(error){
+
+alert("Error submitting form")
+
+}
+
+})
+
+</script>
 
 </body>
 </html>
